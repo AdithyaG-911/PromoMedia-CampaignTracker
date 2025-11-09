@@ -12,10 +12,14 @@ export default function CampaignTracker() {
   const fetchCampaigns = async () => {
     try {
       const res = await API.get("");
-      setCampaigns(res.data);
+      // Ensure we're setting an array
+      setCampaigns(Array.isArray(res.data) ? res.data : []);
       setLoading(false);
     } catch (err) {
       console.error("Error fetching campaigns:", err);
+      // Set to empty array on error
+      setCampaigns([]);
+      setLoading(false);
     }
   };
 
@@ -24,19 +28,30 @@ export default function CampaignTracker() {
   }, []);
 
   const handleDelete = async (id) => {
-    await API.delete(`/${id}`);
-    fetchCampaigns();
+    try {
+      await API.delete(`/${id}`);
+      fetchCampaigns();
+    } catch (err) {
+      console.error("Error deleting campaign:", err);
+    }
   };
 
   const handleStatusChange = async (id, status) => {
-    await API.patch(`/${id}`, { status });
-    fetchCampaigns();
+    try {
+      await API.patch(`/${id}`, { status });
+      fetchCampaigns();
+    } catch (err) {
+      console.error("Error updating campaign status:", err);
+    }
   };
 
-  const filteredCampaigns = campaigns.filter(c =>
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.client.toLowerCase().includes(search.toLowerCase())
-  );
+  // Ensure campaigns is an array before filtering
+  const filteredCampaigns = Array.isArray(campaigns) 
+    ? campaigns.filter(c =>
+        c.name.toLowerCase().includes(search.toLowerCase()) ||
+        c.client.toLowerCase().includes(search.toLowerCase())
+      )
+    : [];
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
@@ -53,7 +68,7 @@ export default function CampaignTracker() {
         <CampaignForm onAdd={fetchCampaigns} />
 
         {/* Dashboard Statistics */}
-        <DashboardStats campaigns={campaigns} />
+        <DashboardStats campaigns={Array.isArray(campaigns) ? campaigns : []} />
 
         {/* Search & Filter */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">

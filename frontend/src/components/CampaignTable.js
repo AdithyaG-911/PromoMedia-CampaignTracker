@@ -1,7 +1,10 @@
 import React from "react";
 
 export default function CampaignTable({ campaigns, onDelete, onStatusChange }) {
-  if (campaigns.length === 0) {
+  // Ensure campaigns is an array
+  const safeCampaigns = Array.isArray(campaigns) ? campaigns : [];
+  
+  if (safeCampaigns.length === 0) {
     return (
       <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
         <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,7 +20,7 @@ export default function CampaignTable({ campaigns, onDelete, onStatusChange }) {
     <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
       <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
         <h3 className="text-lg font-semibold text-gray-900">Your Campaigns</h3>
-        <p className="text-sm text-gray-600 mt-1">{campaigns.length} campaign{campaigns.length !== 1 ? 's' : ''} total</p>
+        <p className="text-sm text-gray-600 mt-1">{safeCampaigns.length} campaign{safeCampaigns.length !== 1 ? 's' : ''} total</p>
       </div>
       <div className="overflow-x-auto">
         <table className="w-full">
@@ -31,7 +34,7 @@ export default function CampaignTable({ campaigns, onDelete, onStatusChange }) {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {campaigns.map((c) => (
+            {safeCampaigns.map((c) => (
               <tr key={c._id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">{c.name}</div>

@@ -1,14 +1,17 @@
 import React from "react";
 
 export default function DashboardStats({ campaigns }) {
-  const active = campaigns.filter(c => c.status === "Active").length;
-  const paused = campaigns.filter(c => c.status === "Paused").length;
-  const completed = campaigns.filter(c => c.status === "Completed").length;
+  // Ensure campaigns is an array
+  const safeCampaigns = Array.isArray(campaigns) ? campaigns : [];
+  
+  const active = safeCampaigns.filter(c => c.status === "Active").length;
+  const paused = safeCampaigns.filter(c => c.status === "Paused").length;
+  const completed = safeCampaigns.filter(c => c.status === "Completed").length;
 
   const stats = [
     { 
       label: "Total Campaigns", 
-      value: campaigns.length, 
+      value: safeCampaigns.length, 
       color: "blue",
       icon: (
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
