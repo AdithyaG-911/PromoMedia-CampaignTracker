@@ -7,11 +7,9 @@ const campaignRoutes = require('./routes/campaigns');
 const app = express();
 
 app.use(cors({
-  origin: [
-    'http://localhost:3000', // Local development
-    'https://promo-media-campaign-tracker-dsxq.vercel.app' // Your Vercel domain
-  ],
-  credentials: true
+  origin: "https://promo-media-campaign-tracker-dsxq.vercel.app",
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type"],
 }));
 
 app.use(express.json());
