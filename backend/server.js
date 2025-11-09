@@ -5,9 +5,13 @@ require('dotenv').config();
 const campaignRoutes = require('./routes/campaigns');
 
 const app = express();
-
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://promo-media-campaign-tracker-dsxq.vercel.app",
+  "https://promo-media-campaign-tracker-dsxq-8hla1eg3t.vercel.app"
+];
 app.use(cors({
-  origin: "promo-media-campaign-tracker-dsxq.vercel.app",
+  origin: allowedOrigins,
   methods: ["GET", "POST", "PATCH", "DELETE"],
   allowedHeaders: ["Content-Type"],
 }));
