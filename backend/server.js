@@ -5,10 +5,17 @@ require('dotenv').config();
 const campaignRoutes = require('./routes/campaigns');
 
 const app = express();
-app.use(cors());
+
+app.use(cors({
+  origin: [
+    'http://localhost:3000', // Local development
+    'https://promo-media-campaign-tracker-dsxq.vercel.app' // Your Vercel domain
+  ],
+  credentials: true
+}));
+
 app.use(express.json());
 
-// Connect to MongoDB using environment variables
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true

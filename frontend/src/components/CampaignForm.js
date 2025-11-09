@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import API from "../api";
 
 export default function CampaignForm({ onAdd }) {
   const [name, setName] = useState("");
@@ -10,7 +10,7 @@ export default function CampaignForm({ onAdd }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/campaigns", {
+      await API.post("", {
         name,
         client,
         startDate,

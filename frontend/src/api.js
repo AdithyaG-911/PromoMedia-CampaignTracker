@@ -1,3 +1,7 @@
 import axios from 'axios';
-const API = axios.create({ baseURL: 'https://promomedia-campaigntracker-production.up.railway.app/api' });
+
+const API = axios.create({
+  baseURL: process.env.REACT_APP_API_URL + '/api/campaigns'
+});
+
 export default API;

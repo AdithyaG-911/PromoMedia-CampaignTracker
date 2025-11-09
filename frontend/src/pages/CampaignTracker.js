@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import API from "../api";
 import CampaignForm from "../components/CampaignForm";
 import CampaignTable from "../components/CampaignTable";
 import DashboardStats from "../components/DashboardStats";
@@ -11,7 +11,7 @@ export default function CampaignTracker() {
 
   const fetchCampaigns = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/campaigns");
+      const res = await API.get("");
       setCampaigns(res.data);
       setLoading(false);
     } catch (err) {
@@ -24,12 +24,12 @@ export default function CampaignTracker() {
   }, []);
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/campaigns/${id}`);
+    await API.delete(`/${id}`);
     fetchCampaigns();
   };
 
   const handleStatusChange = async (id, status) => {
-    await axios.patch(`http://localhost:5000/api/campaigns/${id}`, { status });
+    await API.patch(`/${id}`, { status });
     fetchCampaigns();
   };
 
