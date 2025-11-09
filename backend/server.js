@@ -1,13 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 const campaignRoutes = require('./routes/campaigns');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/promomediaDB', {
+// Connect to MongoDB using environment variables
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
@@ -16,4 +18,5 @@ mongoose.connect('mongodb://localhost:27017/promomediaDB', {
 
 app.use('/api/campaigns', campaignRoutes);
 
-app.listen(5000, () => console.log("Backend running on port 5000"));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
